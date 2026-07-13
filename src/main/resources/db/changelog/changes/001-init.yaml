@@ -1,0 +1,427 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-init-schema
+      author: trello-clone
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uk_users_email
+              - column:
+                  name: password_hash
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: display_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: boards
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: owner_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_boards_owner
+                    references: users(id)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: board_members
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: board_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_board_members_board
+                    references: boards(id)
+                    deleteCascade: true
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_board_members_user
+                    references: users(id)
+                    deleteCascade: true
+              - column:
+                  name: role
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: board_members
+            columnNames: board_id, user_id
+            constraintName: uk_board_members_board_user
+
+        - createTable:
+            tableName: board_columns
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: board_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_board_columns_board
+                    references: boards(id)
+                    deleteCascade: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: archived
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: archived_at
+                  type: timestamp
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: cards
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: column_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cards_column
+                    references: board_columns(id)
+                    deleteCascade: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: position
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: archived
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: due_date
+                  type: timestamp
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: labels
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: board_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_labels_board
+                    references: boards(id)
+                    deleteCascade: true
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: color
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: card_labels
+            columns:
+              - column:
+                  name: card_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card_labels_card
+                    references: cards(id)
+                    deleteCascade: true
+              - column:
+                  name: label_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card_labels_label
+                    references: labels(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            tableName: card_labels
+            columnNames: card_id, label_id
+            constraintName: pk_card_labels
+
+        - createTable:
+            tableName: card_assignees
+            columns:
+              - column:
+                  name: card_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card_assignees_card
+                    references: cards(id)
+                    deleteCascade: true
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card_assignees_user
+                    references: users(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            tableName: card_assignees
+            columnNames: card_id, user_id
+            constraintName: pk_card_assignees
+
+        - createTable:
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: card_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_comments_card
+                    references: cards(id)
+                    deleteCascade: true
+              - column:
+                  name: author_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_comments_author
+                    references: users(id)
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: checklists
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: card_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_checklists_card
+                    references: cards(id)
+                    deleteCascade: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: int
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: checklist_items
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: checklist_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_checklist_items_checklist
+                    references: checklists(id)
+                    deleteCascade: true
+              - column:
+                  name: text
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: done
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: int
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: attachments
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: card_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_attachments_card
+                    references: cards(id)
+                    deleteCascade: true
+              - column:
+                  name: filename
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stored_path
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content_type
+                  type: varchar(255)
+              - column:
+                  name: size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uploaded_by
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_attachments_uploaded_by
+                    references: users(id)
+              - column:
+                  name: uploaded_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false

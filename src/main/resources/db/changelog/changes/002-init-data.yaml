@@ -1,0 +1,758 @@
+databaseChangeLog:
+  - changeSet:
+      id: 101-seed-users
+      author: trello-clone
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" }
+              - column: { name: email, value: "shitov.aleksandr2015@yandex.ru" }
+              - column: { name: password_hash, value: "$2a$10$JevTx9U4Tw2TZTNSqGUBF.6XVHYdInlurPjKYh2VuOmJQDdz9AnYC" }
+              - column: { name: display_name, value: "Александр Шитов" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: id, value: "e49a799e-24c9-471d-b14d-803adedbde35" }
+              - column: { name: email, value: "mswitchback932@gmail.com" }
+              - column: { name: password_hash, value: "$2a$10$tTz1x5csvxFrnF45fLrqvuLST2ot4fuBpAErc5bh6IC.BlQfP/kdO" }
+              - column: { name: display_name, value: "Михаил Ковалёв" }
+
+  - changeSet:
+      id: 102-seed-boards
+      author: trello-clone
+      changes:
+        - insert:
+            tableName: boards
+            columns:
+              - column: { name: id, value: "ee460d21-a214-4bd6-8544-b143a78aea4f" }
+              - column: { name: name, value: "Разработка продукта" }
+              - column: { name: description, value: "Бэклог и текущие задачи по разработке trello-clone" }
+              - column: { name: owner_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" }
+        - insert:
+            tableName: boards
+            columns:
+              - column: { name: id, value: "ddba10c2-e0f6-4bda-af41-a7598c93b2c9" }
+              - column: { name: name, value: "Маркетинговая кампания" }
+              - column: { name: description, value: "Продвижение продукта: контент, реклама, аналитика" }
+              - column: { name: owner_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" }
+        - insert:
+            tableName: boards
+            columns:
+              - column: { name: id, value: "f4ea650c-d800-4018-84fe-d06519dd82b5" }
+              - column: { name: name, value: "Личные задачи" }
+              - column: { name: description, value: "Личные дела и напоминания" }
+              - column: { name: owner_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" }
+
+  - changeSet:
+      id: 103-seed-board-members
+      author: trello-clone
+      changes:
+        - insert:
+            tableName: board_members
+            columns:
+              - column: { name: id, value: "3f996605-d6e5-4b87-84f6-c9f0914d5a1d" }
+              - column: { name: board_id, value: "ee460d21-a214-4bd6-8544-b143a78aea4f" }
+              - column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" }
+              - column: { name: role, value: "EDITOR" }
+        - insert:
+            tableName: board_members
+            columns:
+              - column: { name: id, value: "c4e77c82-c326-4a42-927c-d7b07d9ef303" }
+              - column: { name: board_id, value: "ddba10c2-e0f6-4bda-af41-a7598c93b2c9" }
+              - column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" }
+              - column: { name: role, value: "VIEWER" }
+        - insert:
+            tableName: board_members
+            columns:
+              - column: { name: id, value: "cad8c3c4-a8b0-42a0-b8ba-4f8b548b1858" }
+              - column: { name: board_id, value: "f4ea650c-d800-4018-84fe-d06519dd82b5" }
+              - column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" }
+              - column: { name: role, value: "VIEWER" }
+
+  - changeSet:
+      id: 104-seed-board-columns
+      author: trello-clone
+      changes:
+        # Доска "Разработка продукта"
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "89abb695-46f9-470e-a7f6-3dd8cb7edb87" }
+              - column: { name: board_id, value: "ee460d21-a214-4bd6-8544-b143a78aea4f" }
+              - column: { name: name, value: "To Do" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "b7e8a742-3fb8-4bc5-b818-c1c4d922b344" }
+              - column: { name: board_id, value: "ee460d21-a214-4bd6-8544-b143a78aea4f" }
+              - column: { name: name, value: "In Progress" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "74609ffc-2963-4419-b1dd-074790616e55" }
+              - column: { name: board_id, value: "ee460d21-a214-4bd6-8544-b143a78aea4f" }
+              - column: { name: name, value: "Review" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "712b7cee-0dcb-49e5-971c-6b4c5a45452a" }
+              - column: { name: board_id, value: "ee460d21-a214-4bd6-8544-b143a78aea4f" }
+              - column: { name: name, value: "Done" }
+              - column: { name: position, valueNumeric: 3 }
+        # Доска "Маркетинговая кампания"
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "021a04af-62a9-4928-8026-514df2f4077d" }
+              - column: { name: board_id, value: "ddba10c2-e0f6-4bda-af41-a7598c93b2c9" }
+              - column: { name: name, value: "To Do" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "7139f20e-e115-4023-9545-8c2e8fa14f9b" }
+              - column: { name: board_id, value: "ddba10c2-e0f6-4bda-af41-a7598c93b2c9" }
+              - column: { name: name, value: "In Progress" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "8c411e85-35c8-45dc-a0f0-87b6c2bc9cdb" }
+              - column: { name: board_id, value: "ddba10c2-e0f6-4bda-af41-a7598c93b2c9" }
+              - column: { name: name, value: "Review" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "1cb634af-2b2d-49bb-9cdc-edd859002f2c" }
+              - column: { name: board_id, value: "ddba10c2-e0f6-4bda-af41-a7598c93b2c9" }
+              - column: { name: name, value: "Done" }
+              - column: { name: position, valueNumeric: 3 }
+        # Доска "Личные задачи"
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "87db6241-1208-45e9-b167-3baf3a98ccbd" }
+              - column: { name: board_id, value: "f4ea650c-d800-4018-84fe-d06519dd82b5" }
+              - column: { name: name, value: "To Do" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "9d085f19-2760-4d71-9b4b-0f21f2477865" }
+              - column: { name: board_id, value: "f4ea650c-d800-4018-84fe-d06519dd82b5" }
+              - column: { name: name, value: "In Progress" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "8c765c87-25fc-4b60-bb44-07a341d93d47" }
+              - column: { name: board_id, value: "f4ea650c-d800-4018-84fe-d06519dd82b5" }
+              - column: { name: name, value: "Review" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: board_columns
+            columns:
+              - column: { name: id, value: "9766b160-aac2-4127-8dc8-d971bc7b287e" }
+              - column: { name: board_id, value: "f4ea650c-d800-4018-84fe-d06519dd82b5" }
+              - column: { name: name, value: "Done" }
+              - column: { name: position, valueNumeric: 3 }
+
+  - changeSet:
+      id: 105-seed-cards-board-product
+      author: trello-clone
+      changes:
+        # To Do
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "bd15be8b-9ccf-4a43-bdb1-708e665ec39d" }
+              - column: { name: column_id, value: "89abb695-46f9-470e-a7f6-3dd8cb7edb87" }
+              - column: { name: title, value: "Спроектировать схему базы данных для модуля отчётов" }
+              - column: { name: description, value: "Определить таблицы для агрегированных метрик, продумать индексы под быстрые выборки за период" }
+              - column: { name: due_date, value: "2026-07-22 18:00:00" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "f6cb6a56-e7d7-4a04-b2d2-1dda890a2b71" }
+              - column: { name: column_id, value: "89abb695-46f9-470e-a7f6-3dd8cb7edb87" }
+              - column: { name: title, value: "Добавить валидацию email при регистрации" }
+              - column: { name: description, value: "Проверять формат адреса на бэкенде и присылать понятную ошибку при некорректном вводе" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "4b62064c-6677-4b49-b54d-04b4d83539bb" }
+              - column: { name: column_id, value: "89abb695-46f9-470e-a7f6-3dd8cb7edb87" }
+              - column: { name: title, value: "Настроить CI-пайплайн для автотестов" }
+              - column: { name: description, value: "Прогон unit- и интеграционных тестов на каждый push" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "7fd9de2c-eaac-46ac-a923-ff16123e2c2c" }
+              - column: { name: column_id, value: "89abb695-46f9-470e-a7f6-3dd8cb7edb87" }
+              - column: { name: title, value: "Написать ТЗ на интеграцию с платёжным шлюзом" }
+              - column: { name: description, value: "Описать сценарии оплаты, обработку webhook'ов и требования к безопасности хранения данных карт" }
+              - column: { name: due_date, value: "2026-08-01 12:00:00" }
+              - column: { name: position, valueNumeric: 3 }
+        # In Progress
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "8edec2a6-5a24-4382-8dce-f6425d54657e" }
+              - column: { name: column_id, value: "b7e8a742-3fb8-4bc5-b818-c1c4d922b344" }
+              - column: { name: title, value: "Реализовать загрузку вложений к карточкам" }
+              - column: { name: description, value: "Хранение файлов в S3-совместимом хранилище, ограничение размера и допустимых типов файлов" }
+              - column: { name: due_date, value: "2026-07-28 17:00:00" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "f16f426c-9d16-479a-b406-4840dea0a7d7" }
+              - column: { name: column_id, value: "b7e8a742-3fb8-4bc5-b818-c1c4d922b344" }
+              - column: { name: title, value: "Оптимизировать запросы к таблице cards (N+1)" }
+              - column: { name: description, value: "Заменить ленивую загрузку связей на batch-fetch, добавить недостающие индексы" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "26a912c3-cab0-421d-a02e-87e46bc0ffec" }
+              - column: { name: column_id, value: "b7e8a742-3fb8-4bc5-b818-c1c4d922b344" }
+              - column: { name: title, value: "Добавить пагинацию в список досок" }
+              - column: { name: description, value: "Курсорная пагинация с сортировкой по дате создания" }
+              - column: { name: due_date, value: "2026-07-25 18:00:00" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "c578a982-2a6e-4b5e-9083-995d314212e2" }
+              - column: { name: column_id, value: "b7e8a742-3fb8-4bc5-b818-c1c4d922b344" }
+              - column: { name: title, value: "Внедрить кэширование профиля пользователя" }
+              - column: { name: description, value: "Redis-кэш с инвалидацией при обновлении профиля" }
+              - column: { name: position, valueNumeric: 3 }
+        # Review
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "8a351fec-8a01-4aa9-92ce-99eb8bb1accc" }
+              - column: { name: column_id, value: "74609ffc-2963-4419-b1dd-074790616e55" }
+              - column: { name: title, value: "Код-ревью PR с рефакторингом BoardAccessService" }
+              - column: { name: description, value: "Проверить корректность проверок доступа после разделения на роли VIEWER/EDITOR" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "3da25b1b-7b96-4820-9d07-13c44afbe3a5" }
+              - column: { name: column_id, value: "74609ffc-2963-4419-b1dd-074790616e55" }
+              - column: { name: title, value: "Проверить миграции Liquibase перед релизом" }
+              - column: { name: description, value: "Прогнать миграции на копии продакшен-базы, убедиться в отсутствии блокировок таблиц" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "f0c2df44-4bde-478e-9789-bff6df5a8dc4" }
+              - column: { name: column_id, value: "74609ffc-2963-4419-b1dd-074790616e55" }
+              - column: { name: title, value: "Ревью документации OpenAPI" }
+              - column: { name: description, value: "Сверить актуальность схем ответов с реальным поведением эндпоинтов" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "c85c7e9c-269d-4bdc-b19c-b47d8fc0f5d2" }
+              - column: { name: column_id, value: "74609ffc-2963-4419-b1dd-074790616e55" }
+              - column: { name: title, value: "Протестировать сценарий приглашения участника на доску" }
+              - column: { name: description, value: "Проверить отправку приглашения, принятие/отклонение и назначение роли" }
+              - column: { name: position, valueNumeric: 3 }
+        # Done
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "f193cd52-9a18-4706-b6ac-5de5e4d6b247" }
+              - column: { name: column_id, value: "712b7cee-0dcb-49e5-971c-6b4c5a45452a" }
+              - column: { name: title, value: "Настроить Swagger UI на /api/docs" }
+              - column: { name: description, value: "Подключить springdoc-openapi и настроить группировку эндпоинтов" }
+              - column: { name: position, valueNumeric: 0 }
+              - column: { name: archived, valueBoolean: false }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "75fff4aa-feb7-42a3-a0d1-5140b0965a4d" }
+              - column: { name: column_id, value: "712b7cee-0dcb-49e5-971c-6b4c5a45452a" }
+              - column: { name: title, value: "Добавить JWT-аутентификацию" }
+              - column: { name: description, value: "Access/refresh токены, middleware проверки подписи и срока действия" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "5d95e618-d4cf-4a5d-a3c0-c5c8798a6561" }
+              - column: { name: column_id, value: "712b7cee-0dcb-49e5-971c-6b4c5a45452a" }
+              - column: { name: title, value: "Реализовать CRUD для колонок доски" }
+              - column: { name: description, value: "Создание, переименование, изменение порядка и архивация колонок" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "c87ef3d4-f71f-4c6b-918e-503c6c0ad7a8" }
+              - column: { name: column_id, value: "712b7cee-0dcb-49e5-971c-6b4c5a45452a" }
+              - column: { name: title, value: "Подключить PostgreSQL через Docker Compose" }
+              - column: { name: description, value: "Локальное окружение для разработки с volume для персистентности данных" }
+              - column: { name: position, valueNumeric: 3 }
+
+  - changeSet:
+      id: 106-seed-cards-board-marketing
+      author: trello-clone
+      changes:
+        # To Do
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "58e72dec-fe4a-4f93-b3ad-25a46919d652" }
+              - column: { name: column_id, value: "021a04af-62a9-4928-8026-514df2f4077d" }
+              - column: { name: title, value: "Составить контент-план на следующий месяц" }
+              - column: { name: description, value: "Темы постов, даты публикаций и ответственные по каждому каналу" }
+              - column: { name: due_date, value: "2026-07-18 12:00:00" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "a44e0f4e-3181-4f91-8553-93810c1cec8c" }
+              - column: { name: column_id, value: "021a04af-62a9-4928-8026-514df2f4077d" }
+              - column: { name: title, value: "Согласовать бюджет рекламной кампании" }
+              - column: { name: description, value: "Распределение бюджета между таргетированной рекламой, инфлюенсерами и контекстной рекламой" }
+              - column: { name: due_date, value: "2026-07-20 10:00:00" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "56ddbe26-387a-4164-9364-69e52cb3e2eb" }
+              - column: { name: column_id, value: "021a04af-62a9-4928-8026-514df2f4077d" }
+              - column: { name: title, value: "Подготовить бриф для дизайнера баннеров" }
+              - column: { name: description, value: "Форматы, ключевые сообщения и референсы стиля" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "c1d1add8-6dab-4de3-8247-696061ad0bbe" }
+              - column: { name: column_id, value: "021a04af-62a9-4928-8026-514df2f4077d" }
+              - column: { name: title, value: "Собрать список инфлюенсеров для коллаборации" }
+              - column: { name: description, value: "Отобрать блогеров по охвату аудитории и тематике, собрать медиакиты" }
+              - column: { name: position, valueNumeric: 3 }
+        # In Progress
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "7ebe885a-8798-4a2d-b568-587ee90946fb" }
+              - column: { name: column_id, value: "7139f20e-e115-4023-9545-8c2e8fa14f9b" }
+              - column: { name: title, value: "Написать серию постов для соцсетей" }
+              - column: { name: description, value: "10 постов с анонсом новых функций продукта" }
+              - column: { name: due_date, value: "2026-07-19 15:00:00" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "4d9ffcf2-c135-431c-9056-a657ff6e3ca2" }
+              - column: { name: column_id, value: "7139f20e-e115-4023-9545-8c2e8fa14f9b" }
+              - column: { name: title, value: "Настроить таргетированную рекламу в Instagram" }
+              - column: { name: description, value: "Настроить аудитории и A/B тест креативов" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "68361995-6c9d-4e3b-a799-38986ce4f75d" }
+              - column: { name: column_id, value: "7139f20e-e115-4023-9545-8c2e8fa14f9b" }
+              - column: { name: title, value: "Подготовить email-рассылку по базе клиентов" }
+              - column: { name: description, value: "Сегментация базы и персонализация письма под активных и неактивных пользователей" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "af68ce4e-049e-430b-a647-5e5d3b0f3d4b" }
+              - column: { name: column_id, value: "7139f20e-e115-4023-9545-8c2e8fa14f9b" }
+              - column: { name: title, value: "Записать демо-видео продукта" }
+              - column: { name: description, value: "Скринкаст с озвучкой основных сценариев использования, длительность до 3 минут" }
+              - column: { name: position, valueNumeric: 3 }
+        # Review
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "f7cb27de-bffc-41ac-98b9-b2d79f586d9c" }
+              - column: { name: column_id, value: "8c411e85-35c8-45dc-a0f0-87b6c2bc9cdb" }
+              - column: { name: title, value: "Проверить аналитику прошлой рекламной кампании" }
+              - column: { name: description, value: "Сравнить CTR и стоимость лида по каналам, сделать выводы для следующей кампании" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "a217d31d-0303-47c4-b641-3f83fcf1c4a2" }
+              - column: { name: column_id, value: "8c411e85-35c8-45dc-a0f0-87b6c2bc9cdb" }
+              - column: { name: title, value: "Согласовать финальный дизайн лендинга" }
+              - column: { name: description, value: "Собрать замечания от команды и утвердить финальную версию перед вёрсткой" }
+              - column: { name: due_date, value: "2026-07-21 16:00:00" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "5562a794-5321-4883-995d-e3d91e79e636" }
+              - column: { name: column_id, value: "8c411e85-35c8-45dc-a0f0-87b6c2bc9cdb" }
+              - column: { name: title, value: "Ревью текста пресс-релиза" }
+              - column: { name: description, value: "Проверить точность формулировок и соответствие тону бренда" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "77d18d28-d1b5-4cd4-bea1-c35a239158da" }
+              - column: { name: column_id, value: "8c411e85-35c8-45dc-a0f0-87b6c2bc9cdb" }
+              - column: { name: title, value: "Проверить UTM-метки перед запуском" }
+              - column: { name: description, value: "Убедиться, что все ссылки размечены для корректного трекинга в аналитике" }
+              - column: { name: position, valueNumeric: 3 }
+        # Done
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "ec6d074a-1f94-4e49-9475-8dc996dd31c8" }
+              - column: { name: column_id, value: "1cb634af-2b2d-49bb-9cdc-edd859002f2c" }
+              - column: { name: title, value: "Запустить опрос удовлетворённости клиентов" }
+              - column: { name: description, value: "NPS-опрос через email и в приложении" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "83b7fe27-398b-4cf5-b40c-0ddd60f39731" }
+              - column: { name: column_id, value: "1cb634af-2b2d-49bb-9cdc-edd859002f2c" }
+              - column: { name: title, value: "Обновить логотип на сайте" }
+              - column: { name: description, value: "Заменить логотип во всех разделах сайта и в email-шаблонах" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "44a5497b-3ecf-4753-be10-9fb0048ecb2a" }
+              - column: { name: column_id, value: "1cb634af-2b2d-49bb-9cdc-edd859002f2c" }
+              - column: { name: title, value: "Опубликовать кейс на Habr" }
+              - column: { name: description, value: "Статья о технических решениях при разработке продукта" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "5ba8c62d-1fe3-4705-bfcf-6d96675f52d5" }
+              - column: { name: column_id, value: "1cb634af-2b2d-49bb-9cdc-edd859002f2c" }
+              - column: { name: title, value: "Настроить аналитику в Google Analytics" }
+              - column: { name: description, value: "Настроить цели и события для отслеживания конверсий" }
+              - column: { name: position, valueNumeric: 3 }
+
+  - changeSet:
+      id: 107-seed-cards-board-personal
+      author: trello-clone
+      changes:
+        # To Do
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "b7eb73be-a8f5-4814-9b5f-270affff1167" }
+              - column: { name: column_id, value: "87db6241-1208-45e9-b167-3baf3a98ccbd" }
+              - column: { name: title, value: "Записаться к стоматологу" }
+              - column: { name: description, value: "Плановый осмотр и чистка" }
+              - column: { name: due_date, value: "2026-07-17 10:00:00" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "ede89ab4-6ce2-4b43-ac8b-23087f04bf67" }
+              - column: { name: column_id, value: "87db6241-1208-45e9-b167-3baf3a98ccbd" }
+              - column: { name: title, value: "Продлить страховку на автомобиль" }
+              - column: { name: description, value: "Сравнить предложения страховых компаний перед продлением" }
+              - column: { name: due_date, value: "2026-07-30 09:00:00" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "f48cfeb0-f6eb-4eea-ab08-9351538e33a1" }
+              - column: { name: column_id, value: "87db6241-1208-45e9-b167-3baf3a98ccbd" }
+              - column: { name: title, value: "Купить подарок на день рождения маме" }
+              - column: { name: description, value: "День рождения 5 августа, нужно определиться с идеей заранее" }
+              - column: { name: due_date, value: "2026-08-01 00:00:00" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "160b43b7-7462-42f6-bfa1-e38680fc4832" }
+              - column: { name: column_id, value: "87db6241-1208-45e9-b167-3baf3a98ccbd" }
+              - column: { name: title, value: "Спланировать отпуск в сентябре" }
+              - column: { name: description, value: "Выбрать направление, забронировать билеты и жильё" }
+              - column: { name: position, valueNumeric: 3 }
+        # In Progress
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "46ea3725-3444-4dcd-ab13-55727cbec81e" }
+              - column: { name: column_id, value: "9d085f19-2760-4d71-9b4b-0f21f2477865" }
+              - column: { name: title, value: "Пройти онлайн-курс по английскому языку" }
+              - column: { name: description, value: "Уровень Upper-Intermediate, 3 занятия в неделю" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "0589e232-c66f-4655-9c15-e62719c60579" }
+              - column: { name: column_id, value: "9d085f19-2760-4d71-9b4b-0f21f2477865" }
+              - column: { name: title, value: "Сделать ремонт на кухне" }
+              - column: { name: description, value: "Замена столешницы и покраска стен" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "782fa089-d10e-47c7-9bf8-278cf75fd35e" }
+              - column: { name: column_id, value: "9d085f19-2760-4d71-9b4b-0f21f2477865" }
+              - column: { name: title, value: "Разобрать вещи в кладовке" }
+              - column: { name: description, value: "Отсортировать вещи на выброс, отдать и оставить" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "31143218-d0d1-4173-975a-8cd5a7dabc09" }
+              - column: { name: column_id, value: "9d085f19-2760-4d71-9b4b-0f21f2477865" }
+              - column: { name: title, value: "Настроить бюджет в приложении для финансов" }
+              - column: { name: description, value: "Категории расходов и лимиты по месяцам" }
+              - column: { name: position, valueNumeric: 3 }
+        # Review
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "bed33dc0-1a83-46a6-9b2c-0bd8a7b3c194" }
+              - column: { name: column_id, value: "8c765c87-25fc-4b60-bb44-07a341d93d47" }
+              - column: { name: title, value: "Проверить черновик резюме" }
+              - column: { name: description, value: "Обновить раздел с проектами и попросить друга вычитать" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "29ab0489-a87d-43d5-aabf-b43a8fa3190d" }
+              - column: { name: column_id, value: "8c765c87-25fc-4b60-bb44-07a341d93d47" }
+              - column: { name: title, value: "Перечитать договор аренды перед подписанием" }
+              - column: { name: description, value: "Обратить внимание на условия расторжения и индексацию платежей" }
+              - column: { name: due_date, value: "2026-07-16 19:00:00" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "4dc6f8fa-edcc-40e6-b7f6-d899db937961" }
+              - column: { name: column_id, value: "8c765c87-25fc-4b60-bb44-07a341d93d47" }
+              - column: { name: title, value: "Сравнить предложения по ипотеке" }
+              - column: { name: description, value: "Собрать ставки минимум трёх банков" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "976b8a55-5e98-4370-9bf5-664621c80f5b" }
+              - column: { name: column_id, value: "8c765c87-25fc-4b60-bb44-07a341d93d47" }
+              - column: { name: title, value: "Просмотреть фотографии с отпуска для альбома" }
+              - column: { name: description, value: "Отобрать лучшие кадры и заказать печать фотоальбома" }
+              - column: { name: position, valueNumeric: 3 }
+        # Done
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "1a37ce01-7fc4-4f6b-86a5-5da4ec5510bf" }
+              - column: { name: column_id, value: "9766b160-aac2-4127-8dc8-d971bc7b287e" }
+              - column: { name: title, value: "Оплатить коммунальные услуги" }
+              - column: { name: description, value: "Электричество, вода и интернет за июль" }
+              - column: { name: position, valueNumeric: 0 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "cead7407-676f-4b5b-89fd-c4e88c02644d" }
+              - column: { name: column_id, value: "9766b160-aac2-4127-8dc8-d971bc7b287e" }
+              - column: { name: title, value: "Обновить паспорт" }
+              - column: { name: description, value: "Срок действия истекает в этом году, нужно подать документы заранее" }
+              - column: { name: position, valueNumeric: 1 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "be4b2761-577a-44c6-a471-59039fd6f8b7" }
+              - column: { name: column_id, value: "9766b160-aac2-4127-8dc8-d971bc7b287e" }
+              - column: { name: title, value: "Записаться на техосмотр автомобиля" }
+              - column: { name: description, value: "Пройти техосмотр до истечения срока страховки" }
+              - column: { name: position, valueNumeric: 2 }
+        - insert:
+            tableName: cards
+            columns:
+              - column: { name: id, value: "1f62c246-8222-4e73-9f56-e4ee6ebc13ba" }
+              - column: { name: column_id, value: "9766b160-aac2-4127-8dc8-d971bc7b287e" }
+              - column: { name: title, value: "Забронировать билеты на концерт" }
+              - column: { name: description, value: "Концерт в октябре, билеты разбирают быстро" }
+              - column: { name: position, valueNumeric: 3 }
+
+  - changeSet:
+      id: 108-seed-card-assignees
+      author: trello-clone
+      changes:
+        # Доска "Разработка продукта"
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "bd15be8b-9ccf-4a43-bdb1-708e665ec39d" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "bd15be8b-9ccf-4a43-bdb1-708e665ec39d" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "f6cb6a56-e7d7-4a04-b2d2-1dda890a2b71" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "4b62064c-6677-4b49-b54d-04b4d83539bb" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "7fd9de2c-eaac-46ac-a923-ff16123e2c2c" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "8edec2a6-5a24-4382-8dce-f6425d54657e" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "8edec2a6-5a24-4382-8dce-f6425d54657e" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "f16f426c-9d16-479a-b406-4840dea0a7d7" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "26a912c3-cab0-421d-a02e-87e46bc0ffec" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "c578a982-2a6e-4b5e-9083-995d314212e2" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "8a351fec-8a01-4aa9-92ce-99eb8bb1accc" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "3da25b1b-7b96-4820-9d07-13c44afbe3a5" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "f0c2df44-4bde-478e-9789-bff6df5a8dc4" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "c85c7e9c-269d-4bdc-b19c-b47d8fc0f5d2" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "f193cd52-9a18-4706-b6ac-5de5e4d6b247" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "75fff4aa-feb7-42a3-a0d1-5140b0965a4d" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "5d95e618-d4cf-4a5d-a3c0-c5c8798a6561" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "c87ef3d4-f71f-4c6b-918e-503c6c0ad7a8" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        # Доска "Маркетинговая кампания"
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "58e72dec-fe4a-4f93-b3ad-25a46919d652" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "a44e0f4e-3181-4f91-8553-93810c1cec8c" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "56ddbe26-387a-4164-9364-69e52cb3e2eb" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "c1d1add8-6dab-4de3-8247-696061ad0bbe" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "7ebe885a-8798-4a2d-b568-587ee90946fb" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "4d9ffcf2-c135-431c-9056-a657ff6e3ca2" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "68361995-6c9d-4e3b-a799-38986ce4f75d" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "af68ce4e-049e-430b-a647-5e5d3b0f3d4b" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "f7cb27de-bffc-41ac-98b9-b2d79f586d9c" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "a217d31d-0303-47c4-b641-3f83fcf1c4a2" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "a217d31d-0303-47c4-b641-3f83fcf1c4a2" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "5562a794-5321-4883-995d-e3d91e79e636" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "77d18d28-d1b5-4cd4-bea1-c35a239158da" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "ec6d074a-1f94-4e49-9475-8dc996dd31c8" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "83b7fe27-398b-4cf5-b40c-0ddd60f39731" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "44a5497b-3ecf-4753-be10-9fb0048ecb2a" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "5ba8c62d-1fe3-4705-bfcf-6d96675f52d5" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        # Доска "Личные задачи"
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "b7eb73be-a8f5-4814-9b5f-270affff1167" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "ede89ab4-6ce2-4b43-ac8b-23087f04bf67" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "f48cfeb0-f6eb-4eea-ab08-9351538e33a1" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "160b43b7-7462-42f6-bfa1-e38680fc4832" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "46ea3725-3444-4dcd-ab13-55727cbec81e" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "0589e232-c66f-4655-9c15-e62719c60579" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "782fa089-d10e-47c7-9bf8-278cf75fd35e" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "31143218-d0d1-4173-975a-8cd5a7dabc09" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "bed33dc0-1a83-46a6-9b2c-0bd8a7b3c194" } }, { column: { name: user_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "29ab0489-a87d-43d5-aabf-b43a8fa3190d" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "4dc6f8fa-edcc-40e6-b7f6-d899db937961" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "976b8a55-5e98-4370-9bf5-664621c80f5b" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "1a37ce01-7fc4-4f6b-86a5-5da4ec5510bf" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "cead7407-676f-4b5b-89fd-c4e88c02644d" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "be4b2761-577a-44c6-a471-59039fd6f8b7" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+        - insert: { tableName: card_assignees, columns: [ { column: { name: card_id, value: "1f62c246-8222-4e73-9f56-e4ee6ebc13ba" } }, { column: { name: user_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } } ] }
+
+  - changeSet:
+      id: 109-seed-checklists
+      author: trello-clone
+      changes:
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "1a8f621b-bbf8-4c69-b431-3a4e480e8000" } }, { column: { name: card_id, value: "bd15be8b-9ccf-4a43-bdb1-708e665ec39d" } }, { column: { name: title, value: "Этапы проектирования" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "08bef9cf-11b2-4338-ae3a-ab0d3686aed4" } }, { column: { name: card_id, value: "8edec2a6-5a24-4382-8dce-f6425d54657e" } }, { column: { name: title, value: "Задачи реализации" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "3fe17e46-9db6-4633-99c9-096ad27efe7e" } }, { column: { name: card_id, value: "3da25b1b-7b96-4820-9d07-13c44afbe3a5" } }, { column: { name: title, value: "Чек-лист перед релизом" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "7bb0b771-c8f7-48c0-b1b5-bb0003eaebaa" } }, { column: { name: card_id, value: "75fff4aa-feb7-42a3-a0d1-5140b0965a4d" } }, { column: { name: title, value: "Компоненты аутентификации" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "abecddde-b6d1-4fe4-89d4-2979cf5071db" } }, { column: { name: card_id, value: "f193cd52-9a18-4706-b6ac-5de5e4d6b247" } }, { column: { name: title, value: "Настройка Swagger" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "946888cb-6e1b-4b7a-901e-9ef5fc624436" } }, { column: { name: card_id, value: "58e72dec-fe4a-4f93-b3ad-25a46919d652" } }, { column: { name: title, value: "Каналы" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "4f19e369-3847-4c42-9382-eba0effb3601" } }, { column: { name: card_id, value: "a217d31d-0303-47c4-b641-3f83fcf1c4a2" } }, { column: { name: title, value: "Согласование дизайна" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "59f10d37-1863-4b6a-b250-2570f8a89630" } }, { column: { name: card_id, value: "ec6d074a-1f94-4e49-9475-8dc996dd31c8" } }, { column: { name: title, value: "Проведение опроса" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "2029e2bf-4856-4841-ba31-104eea201607" } }, { column: { name: card_id, value: "44a5497b-3ecf-4753-be10-9fb0048ecb2a" } }, { column: { name: title, value: "Публикация статьи" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "96472a06-4c16-45e5-9c0d-c8f223cc72d8" } }, { column: { name: card_id, value: "5ba8c62d-1fe3-4705-bfcf-6d96675f52d5" } }, { column: { name: title, value: "Настройка аналитики" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "b9380ab6-0abb-41e0-baf9-f5db7f9a99aa" } }, { column: { name: card_id, value: "160b43b7-7462-42f6-bfa1-e38680fc4832" } }, { column: { name: title, value: "Подготовка к отпуску" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "77f46ca6-f0ad-41f9-b12d-19af0a557ab0" } }, { column: { name: card_id, value: "29ab0489-a87d-43d5-aabf-b43a8fa3190d" } }, { column: { name: title, value: "Проверка договора" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "c6dc7746-a98d-4abb-9c81-4a9e38fb7adc" } }, { column: { name: card_id, value: "be4b2761-577a-44c6-a471-59039fd6f8b7" } }, { column: { name: title, value: "Техосмотр" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklists, columns: [ { column: { name: id, value: "addf2c47-cf3e-4217-96c4-a9a651967364" } }, { column: { name: card_id, value: "0589e232-c66f-4655-9c15-e62719c60579" } }, { column: { name: title, value: "Этапы ремонта" } }, { column: { name: position, valueNumeric: 0 } } ] }
+
+  - changeSet:
+      id: 110-seed-checklist-items
+      author: trello-clone
+      changes:
+        # Спроектировать схему БД
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "954018b3-edf6-4789-8f09-91ba47205d4a" } }, { column: { name: checklist_id, value: "1a8f621b-bbf8-4c69-b431-3a4e480e8000" } }, { column: { name: text, value: "Собрать требования от аналитиков" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "3fd87978-9753-4539-9312-23171767093f" } }, { column: { name: checklist_id, value: "1a8f621b-bbf8-4c69-b431-3a4e480e8000" } }, { column: { name: text, value: "Спроектировать ER-диаграмму" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "e0ed69e5-017c-4f03-88bf-5c90954533a8" } }, { column: { name: checklist_id, value: "1a8f621b-bbf8-4c69-b431-3a4e480e8000" } }, { column: { name: text, value: "Определить индексы под частые выборки" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "c6fa0476-ba29-48cb-9204-3d500567b99b" } }, { column: { name: checklist_id, value: "1a8f621b-bbf8-4c69-b431-3a4e480e8000" } }, { column: { name: text, value: "Согласовать схему с командой" } }, { column: { name: position, valueNumeric: 3 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "54ec9a63-c81a-428d-a779-782c3d7da8e6" } }, { column: { name: checklist_id, value: "1a8f621b-bbf8-4c69-b431-3a4e480e8000" } }, { column: { name: text, value: "Задокументировать в Confluence" } }, { column: { name: position, valueNumeric: 4 } } ] }
+        # Загрузка вложений
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "ca3fa435-d968-443b-bae2-6827e7531f33" } }, { column: { name: checklist_id, value: "08bef9cf-11b2-4338-ae3a-ab0d3686aed4" } }, { column: { name: text, value: "Настроить S3 bucket" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "a48b96c8-89b6-4435-875f-747c7c9bb89a" } }, { column: { name: checklist_id, value: "08bef9cf-11b2-4338-ae3a-ab0d3686aed4" } }, { column: { name: text, value: "Ограничить размер файла до 25MB" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "f7d0286e-54b9-4261-afb3-53deda279d5c" } }, { column: { name: checklist_id, value: "08bef9cf-11b2-4338-ae3a-ab0d3686aed4" } }, { column: { name: text, value: "Добавить валидацию MIME-типов" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "38561d82-a36a-4cda-9aee-445c2ff8f258" } }, { column: { name: checklist_id, value: "08bef9cf-11b2-4338-ae3a-ab0d3686aed4" } }, { column: { name: text, value: "Написать тесты на загрузку" } }, { column: { name: position, valueNumeric: 3 } } ] }
+        # Проверить миграции Liquibase
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "1331ff97-d47d-4359-9bfc-9a44e5bc6310" } }, { column: { name: checklist_id, value: "3fe17e46-9db6-4633-99c9-096ad27efe7e" } }, { column: { name: text, value: "Прогнать миграции на staging" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "288736f8-ec8a-4425-b4d5-b8adc7ba2bce" } }, { column: { name: checklist_id, value: "3fe17e46-9db6-4633-99c9-096ad27efe7e" } }, { column: { name: text, value: "Проверить откат миграции" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "153ef880-5148-49f9-9ff6-049ef1101d83" } }, { column: { name: checklist_id, value: "3fe17e46-9db6-4633-99c9-096ad27efe7e" } }, { column: { name: text, value: "Убедиться в отсутствии долгих блокировок" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # JWT-аутентификация
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "6c2d00c4-f189-4e3f-9471-78f4687a20e6" } }, { column: { name: checklist_id, value: "7bb0b771-c8f7-48c0-b1b5-bb0003eaebaa" } }, { column: { name: text, value: "Access token" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "648ceb31-17b4-4b7e-8dc3-133cf039c360" } }, { column: { name: checklist_id, value: "7bb0b771-c8f7-48c0-b1b5-bb0003eaebaa" } }, { column: { name: text, value: "Refresh token" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "95fc2d2d-ef50-45db-8fe9-4aa846b24369" } }, { column: { name: checklist_id, value: "7bb0b771-c8f7-48c0-b1b5-bb0003eaebaa" } }, { column: { name: text, value: "Middleware проверки подписи" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 2 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "e54a5dbe-38f3-46f1-98a2-aeeb2d858f47" } }, { column: { name: checklist_id, value: "7bb0b771-c8f7-48c0-b1b5-bb0003eaebaa" } }, { column: { name: text, value: "Ротация ключей подписи" } }, { column: { name: position, valueNumeric: 3 } } ] }
+        # Настройка Swagger
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "778879bb-5269-42a4-97bd-2477e57ed8a7" } }, { column: { name: checklist_id, value: "abecddde-b6d1-4fe4-89d4-2979cf5071db" } }, { column: { name: text, value: "Подключить springdoc-openapi" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "0cea22ca-bd03-4686-b981-995a41eeda9f" } }, { column: { name: checklist_id, value: "abecddde-b6d1-4fe4-89d4-2979cf5071db" } }, { column: { name: text, value: "Настроить группы эндпоинтов" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "2a5c34f5-6859-49a0-b476-d82281f97991" } }, { column: { name: checklist_id, value: "abecddde-b6d1-4fe4-89d4-2979cf5071db" } }, { column: { name: text, value: "Добавить примеры запросов" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # Контент-план — каналы
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "8df31df7-b509-428f-a87d-5173bf7d9b4f" } }, { column: { name: checklist_id, value: "946888cb-6e1b-4b7a-901e-9ef5fc624436" } }, { column: { name: text, value: "Instagram" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "aee73687-3abd-4cef-bdab-fe05ba1a3c3a" } }, { column: { name: checklist_id, value: "946888cb-6e1b-4b7a-901e-9ef5fc624436" } }, { column: { name: text, value: "Telegram" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "b2c27354-5ef4-4240-815c-f8cba5183e18" } }, { column: { name: checklist_id, value: "946888cb-6e1b-4b7a-901e-9ef5fc624436" } }, { column: { name: text, value: "VK" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "fe6f6585-428c-4071-b4de-191bb883d724" } }, { column: { name: checklist_id, value: "946888cb-6e1b-4b7a-901e-9ef5fc624436" } }, { column: { name: text, value: "Email-рассылка" } }, { column: { name: position, valueNumeric: 3 } } ] }
+        # Согласование дизайна лендинга
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "7cd97aea-5580-48ce-99d9-4bfd5c6a5f59" } }, { column: { name: checklist_id, value: "4f19e369-3847-4c42-9382-eba0effb3601" } }, { column: { name: text, value: "Дизайнер" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "39f8e90d-0a7d-4bcf-9a60-70c2bf9ddf5b" } }, { column: { name: checklist_id, value: "4f19e369-3847-4c42-9382-eba0effb3601" } }, { column: { name: text, value: "Маркетолог" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "7065791d-1b0b-4dbb-91ff-80cc2d37ed13" } }, { column: { name: checklist_id, value: "4f19e369-3847-4c42-9382-eba0effb3601" } }, { column: { name: text, value: "Руководитель проекта" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # Проведение NPS-опроса
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "c02f8de0-9fbc-48ff-b6db-a960be7a1e66" } }, { column: { name: checklist_id, value: "59f10d37-1863-4b6a-b250-2570f8a89630" } }, { column: { name: text, value: "Составить вопросы" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "e11e1b22-0b4a-48b1-8598-11bcdc461dde" } }, { column: { name: checklist_id, value: "59f10d37-1863-4b6a-b250-2570f8a89630" } }, { column: { name: text, value: "Настроить рассылку" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "2f5eafef-1b32-463a-8ac6-94f27c6c2b9c" } }, { column: { name: checklist_id, value: "59f10d37-1863-4b6a-b250-2570f8a89630" } }, { column: { name: text, value: "Собрать и проанализировать результаты" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # Публикация статьи на Habr
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "23244022-419f-4367-9363-e5877ff388ab" } }, { column: { name: checklist_id, value: "2029e2bf-4856-4841-ba31-104eea201607" } }, { column: { name: text, value: "Написать черновик" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "a29375cc-5a72-4e40-9d7b-c5b5c6148463" } }, { column: { name: checklist_id, value: "2029e2bf-4856-4841-ba31-104eea201607" } }, { column: { name: text, value: "Собрать скриншоты" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "af6a1739-4392-4837-9949-ee39a365ad89" } }, { column: { name: checklist_id, value: "2029e2bf-4856-4841-ba31-104eea201607" } }, { column: { name: text, value: "Отправить на модерацию" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # Настройка Google Analytics
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "a8520a1a-d045-4130-867d-a87b0803f027" } }, { column: { name: checklist_id, value: "96472a06-4c16-45e5-9c0d-c8f223cc72d8" } }, { column: { name: text, value: "Настроить цели" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "a0c3ea1a-fe98-441c-bd9b-d85246852320" } }, { column: { name: checklist_id, value: "96472a06-4c16-45e5-9c0d-c8f223cc72d8" } }, { column: { name: text, value: "Настроить события" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "e47df787-302e-4bed-b000-24e59c521ea3" } }, { column: { name: checklist_id, value: "96472a06-4c16-45e5-9c0d-c8f223cc72d8" } }, { column: { name: text, value: "Проверить данные в реальном времени" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # Подготовка к отпуску
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "94af2575-da6a-4fde-b47a-ddcbc4de67e7" } }, { column: { name: checklist_id, value: "b9380ab6-0abb-41e0-baf9-f5db7f9a99aa" } }, { column: { name: text, value: "Выбрать направление" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "b0a78cf9-ed42-4d6a-857f-b15b5ca7a32a" } }, { column: { name: checklist_id, value: "b9380ab6-0abb-41e0-baf9-f5db7f9a99aa" } }, { column: { name: text, value: "Забронировать билеты" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "235183ee-cf6e-4051-9934-bd56a3995446" } }, { column: { name: checklist_id, value: "b9380ab6-0abb-41e0-baf9-f5db7f9a99aa" } }, { column: { name: text, value: "Забронировать отель" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "125b3601-eeba-4ff3-9776-a4e194f47a5d" } }, { column: { name: checklist_id, value: "b9380ab6-0abb-41e0-baf9-f5db7f9a99aa" } }, { column: { name: text, value: "Оформить страховку" } }, { column: { name: position, valueNumeric: 3 } } ] }
+        # Проверка договора аренды
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "a76d6a6f-0454-4df9-be94-a3b77eef1215" } }, { column: { name: checklist_id, value: "77f46ca6-f0ad-41f9-b12d-19af0a557ab0" } }, { column: { name: text, value: "Проверить условия расторжения" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "3ff54f7f-bf89-493c-87af-76d887e6dd1b" } }, { column: { name: checklist_id, value: "77f46ca6-f0ad-41f9-b12d-19af0a557ab0" } }, { column: { name: text, value: "Проверить индексацию платежей" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "bc15d9f6-a298-41c8-b1cd-9a7346614610" } }, { column: { name: checklist_id, value: "77f46ca6-f0ad-41f9-b12d-19af0a557ab0" } }, { column: { name: text, value: "Задать вопросы юристу" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # Техосмотр автомобиля
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "61f89af4-f508-493a-8a46-c4f73fa4eeb6" } }, { column: { name: checklist_id, value: "c6dc7746-a98d-4abb-9c81-4a9e38fb7adc" } }, { column: { name: text, value: "Записаться на диагностику" } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "11a53049-f7eb-43f6-8571-d35d456513aa" } }, { column: { name: checklist_id, value: "c6dc7746-a98d-4abb-9c81-4a9e38fb7adc" } }, { column: { name: text, value: "Оплатить пошлину" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "25910900-73bc-4fa2-9d3f-a8f00e0a9b9d" } }, { column: { name: checklist_id, value: "c6dc7746-a98d-4abb-9c81-4a9e38fb7adc" } }, { column: { name: text, value: "Забрать талон техосмотра" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        # Ремонт на кухне
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "e0690eb5-599b-47e6-9ed9-c580181a78d4" } }, { column: { name: checklist_id, value: "addf2c47-cf3e-4217-96c4-a9a651967364" } }, { column: { name: text, value: "Демонтаж старой столешницы" } }, { column: { name: done, valueBoolean: true } }, { column: { name: position, valueNumeric: 0 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "a7d49566-f6f0-452f-89ce-21dba6c8238e" } }, { column: { name: checklist_id, value: "addf2c47-cf3e-4217-96c4-a9a651967364" } }, { column: { name: text, value: "Замер и заказ новой столешницы" } }, { column: { name: position, valueNumeric: 1 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "767b283d-f34f-4036-bda6-5dc616c9ed2d" } }, { column: { name: checklist_id, value: "addf2c47-cf3e-4217-96c4-a9a651967364" } }, { column: { name: text, value: "Покраска стен" } }, { column: { name: position, valueNumeric: 2 } } ] }
+        - insert: { tableName: checklist_items, columns: [ { column: { name: id, value: "ac4f5796-54dd-43a0-8a28-7414705d8966" } }, { column: { name: checklist_id, value: "addf2c47-cf3e-4217-96c4-a9a651967364" } }, { column: { name: text, value: "Уборка после ремонта" } }, { column: { name: position, valueNumeric: 3 } } ] }
+
+  - changeSet:
+      id: 111-seed-comments
+      author: trello-clone
+      changes:
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "3eb1a1ac-5372-4204-a3c3-2a16242e23fe" } }, { column: { name: card_id, value: "bd15be8b-9ccf-4a43-bdb1-708e665ec39d" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Может стоит сразу продумать партиционирование по дате?" } }, { column: { name: created_at, value: "2026-07-14 09:15:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "38db0400-fe01-4f77-9238-e65a43fe0b3b" } }, { column: { name: card_id, value: "bd15be8b-9ccf-4a43-bdb1-708e665ec39d" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Хорошая мысль, добавлю в схему" } }, { column: { name: created_at, value: "2026-07-14 10:02:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "86021166-090f-4509-bc91-ab7ff08d0205" } }, { column: { name: card_id, value: "f6cb6a56-e7d7-4a04-b2d2-1dda890a2b71" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Нужно ли также проверять MX-записи домена?" } }, { column: { name: created_at, value: "2026-07-13 14:20:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "0de80873-d0f6-4e90-846f-dcab3801b5be" } }, { column: { name: card_id, value: "8edec2a6-5a24-4382-8dce-f6425d54657e" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Ограничение в 25MB закладываем сразу в бэкенд и фронт" } }, { column: { name: created_at, value: "2026-07-12 11:40:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "0894aba2-af76-4e2d-8947-8d57eaf6da1d" } }, { column: { name: card_id, value: "f16f426c-9d16-479a-b406-4840dea0a7d7" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "После профилирования нашёл 3 места с N+1, список в PR" } }, { column: { name: created_at, value: "2026-07-11 16:05:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "ccdaf223-c27e-4625-9d35-26fc23f90f0f" } }, { column: { name: card_id, value: "8a351fec-8a01-4aa9-92ce-99eb8bb1accc" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "В целом ок, но стоит добавить тест на EDITOR без прав на архивацию" } }, { column: { name: created_at, value: "2026-07-10 13:30:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "19d95243-0da6-4ed6-9f8a-d1bcb7fbe658" } }, { column: { name: card_id, value: "3da25b1b-7b96-4820-9d07-13c44afbe3a5" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Прогнал на staging, всё ок" } }, { column: { name: created_at, value: "2026-07-09 18:10:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "8e86de35-c606-4050-9d87-8bb48cd41a12" } }, { column: { name: card_id, value: "c85c7e9c-269d-4bdc-b19c-b47d8fc0f5d2" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Нашёл баг: приглашение с истёкшим сроком всё равно принимается" } }, { column: { name: created_at, value: "2026-07-08 12:00:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "8907a809-538b-496c-a35b-9ad3bf3bea50" } }, { column: { name: card_id, value: "f193cd52-9a18-4706-b6ac-5de5e4d6b247" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Swagger теперь доступен всей команде, удобно" } }, { column: { name: created_at, value: "2026-07-07 10:00:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "4b7780f8-766d-4d67-b712-af345eac07fc" } }, { column: { name: card_id, value: "75fff4aa-feb7-42a3-a0d1-5140b0965a4d" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Не забудьте добавить refresh token в HttpOnly cookie" } }, { column: { name: created_at, value: "2026-07-06 14:25:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "a3cc19c2-45cd-440e-842c-02cce59cacef" } }, { column: { name: card_id, value: "58e72dec-fe4a-4f93-b3ad-25a46919d652" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Добавь пару постов про кейсы клиентов" } }, { column: { name: created_at, value: "2026-07-13 09:00:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "5eac6454-3629-4721-9a82-37d31baee4bf" } }, { column: { name: card_id, value: "a44e0f4e-3181-4f91-8553-93810c1cec8c" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Бюджет выглядит завышенным для Instagram, обсудим на созвоне" } }, { column: { name: created_at, value: "2026-07-12 15:45:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "5a291e4b-ad2e-4b58-89d0-53ac7e84a140" } }, { column: { name: card_id, value: "a217d31d-0303-47c4-b641-3f83fcf1c4a2" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Логотип на мобильной версии съезжает, поправьте" } }, { column: { name: created_at, value: "2026-07-11 10:20:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "2c393dfd-5113-4b01-9e8f-c1f8aa92451a" } }, { column: { name: card_id, value: "ec6d074a-1f94-4e49-9475-8dc996dd31c8" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Отклик пока низкий, может сократить опрос до 5 вопросов?" } }, { column: { name: created_at, value: "2026-07-10 17:00:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "41346241-d772-4b6e-a4a2-e03f3a7959f7" } }, { column: { name: card_id, value: "44a5497b-3ecf-4753-be10-9fb0048ecb2a" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Отличный текст, добавь графики нагрузки перед публикацией" } }, { column: { name: created_at, value: "2026-07-09 11:15:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "d4f7e439-e42b-4cb3-924d-37c4b6c425fc" } }, { column: { name: card_id, value: "c1d1add8-6dab-4de3-8247-696061ad0bbe" } }, { column: { name: author_id, value: "6fc5a127-0c4f-4e6e-9ffe-252b490a8c17" } }, { column: { name: text, value: "Есть контакты трёх подходящих блогеров, скину в личку" } }, { column: { name: created_at, value: "2026-07-13 08:30:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "90c626da-c5c5-43e4-b8c9-910bac2b0425" } }, { column: { name: card_id, value: "160b43b7-7462-42f6-bfa1-e38680fc4832" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Давай в этот раз в горы, а не на море?" } }, { column: { name: created_at, value: "2026-07-13 20:00:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "ab5ec906-80ad-4469-8ef7-e35d2b4dab76" } }, { column: { name: card_id, value: "29ab0489-a87d-43d5-aabf-b43a8fa3190d" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Обрати внимание на пункт про досрочное расторжение" } }, { column: { name: created_at, value: "2026-07-12 21:10:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "02dbc8c3-d4f9-4ac1-84f3-f54fdba2e358" } }, { column: { name: card_id, value: "4dc6f8fa-edcc-40e6-b7f6-d899db937961" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Смотрел ставки в Сбере — не самые выгодные сейчас" } }, { column: { name: created_at, value: "2026-07-11 19:30:00" } } ] }
+        - insert: { tableName: comments, columns: [ { column: { name: id, value: "341df4b2-2503-4f13-9cd7-b5b0618281d6" } }, { column: { name: card_id, value: "976b8a55-5e98-4370-9bf5-664621c80f5b" } }, { column: { name: author_id, value: "e49a799e-24c9-471d-b14d-803adedbde35" } }, { column: { name: text, value: "Красивые фото, особенно закат в горах" } }, { column: { name: created_at, value: "2026-07-13 21:00:00" } } ] }

@@ -2,6 +2,7 @@ package ru.trelloclone.board.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -16,10 +17,12 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.trelloclone.board.listener.BoardMemberAssigneeCleanupListener;
 import ru.trelloclone.user.entity.User;
 
 @Entity
 @Table(name = "board_members")
+@EntityListeners(BoardMemberAssigneeCleanupListener.class)
 @Getter
 @Setter
 @NoArgsConstructor

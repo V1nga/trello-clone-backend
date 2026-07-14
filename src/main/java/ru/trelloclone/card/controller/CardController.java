@@ -7,6 +7,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,7 @@ public class CardController {
     }
 
     @GetMapping("/api/boards/{boardId}/cards/search")
-    public Page<CardSummaryResponse> searchCards(@AuthenticationPrincipal UUID userId, @PathVariable UUID boardId, @RequestParam String query, @PageableDefault(size = 20) Pageable pageable) {
+    public Page<CardSummaryResponse> searchCards(@AuthenticationPrincipal UUID userId, @PathVariable UUID boardId, @RequestParam String query, @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return cardService.searchCards(boardId, userId, query, pageable);
     }
 

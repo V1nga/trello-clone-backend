@@ -38,24 +38,6 @@ springdoc:
 spring:
   config:
     activate:
-      on-profile: dev
-logging:
-  level:
-    ru.trelloclone: DEBUG
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-logging:
-  level:
-    ru.trelloclone: INFO
-
----
-spring:
-  config:
-    activate:
       on-profile: h2
   datasource:
     url: jdbc:h2:mem:trello_clone;MODE=PostgreSQL;DB_CLOSE_DELAY=-1

@@ -27,6 +27,15 @@ public class CardAccessService {
     }
 
     public Card requireCardEditAccess(UUID cardId, UUID userId) {
+        Card card = requireEditAccessAllowingArchived(cardId, userId);
+        if (card.isArchived()) {
+            throw ApiException.badRequest("Cannot modify an archived card");
+        }
+
+        return card;
+    }
+
+    public Card requireEditAccessAllowingArchived(UUID cardId, UUID userId) {
         Card card = requireCard(cardId);
         boardAccessService.requireEditAccess(boardIdOf(card), userId);
 

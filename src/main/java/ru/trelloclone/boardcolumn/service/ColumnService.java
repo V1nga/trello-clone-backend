@@ -77,7 +77,7 @@ public class ColumnService {
 
     @Transactional
     public void archiveColumn(UUID columnId, UUID userId) {
-        BoardColumn column = columnAccessService.requireColumnEditAccess(columnId, userId);
+        BoardColumn column = columnAccessService.requireEditAccessAllowingArchived(columnId, userId);
         column.setArchived(true);
         column.setArchivedAt(Instant.now());
 
@@ -90,7 +90,7 @@ public class ColumnService {
 
     @Transactional
     public BoardColumn unarchiveColumn(UUID columnId, UUID userId) {
-        BoardColumn column = columnAccessService.requireColumnEditAccess(columnId, userId);
+        BoardColumn column = columnAccessService.requireEditAccessAllowingArchived(columnId, userId);
         column.setArchived(false);
         column.setArchivedAt(null);
         column.setPosition((int) columnRepository.countByBoard_IdAndArchivedFalse(column.getBoard().getId()));

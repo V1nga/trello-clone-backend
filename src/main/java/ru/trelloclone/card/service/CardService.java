@@ -14,6 +14,7 @@ import ru.trelloclone.board.entity.Board;
 import ru.trelloclone.board.service.BoardAccessService;
 import ru.trelloclone.boardcolumn.entity.BoardColumn;
 import ru.trelloclone.boardcolumn.service.ColumnAccessService;
+import ru.trelloclone.boardcolumn.service.ColumnService;
 import ru.trelloclone.card.dto.CardDetailResponse;
 import ru.trelloclone.card.dto.CardSummaryResponse;
 import ru.trelloclone.card.dto.CreateCardRequest;
@@ -39,6 +40,7 @@ public class CardService {
     private final CardRepository cardRepository;
     private final CardAccessService cardAccessService;
     private final ColumnAccessService columnAccessService;
+    private final ColumnService columnService;
     private final LabelRepository labelRepository;
     private final UserRepository userRepository;
     private final BoardAccessService boardAccessService;
@@ -109,7 +111,6 @@ public class CardService {
     @Transactional
     public void updateCard(UUID cardId, UUID userId, UpdateCardRequest request) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
-        requireNotArchived(card);
         card.setTitle(request.title());
         card.setDescription(request.description());
         card.setDueDate(request.dueDate());
@@ -119,7 +120,6 @@ public class CardService {
     @Transactional
     public void moveCard(UUID cardId, UUID userId, MoveCardRequest request) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
-        requireNotArchived(card);
         UUID sourceColumnId = card.getColumn().getId();
         UUID targetColumnId = request.columnId();
 
@@ -127,6 +127,9 @@ public class CardService {
         BoardColumn targetColumn = columnAccessService.requireColumn(targetColumnId);
         if (!sourceColumn.getBoard().getId().equals(targetColumn.getBoard().getId())) {
             throw ApiException.badRequest("Cannot move a card to a column on a different board");
+        }
+        if (targetColumn.isArchived()) {
+            throw ApiException.badRequest("Cannot move a card into an archived column");
         }
 
         if (sourceColumnId.equals(targetColumnId)) {
@@ -152,16 +155,16 @@ public class CardService {
 
     @Transactional
     public void archiveCard(UUID cardId, UUID userId) {
-        Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        Card card = cardAccessService.requireEditAccessAllowingArchived(cardId, userId);
         card.setArchived(true);
         card.setUpdatedAt(Instant.now());
     }
 
     @Transactional
     public void unarchiveCard(UUID cardId, UUID userId) {
-        Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        Card card = cardAccessService.requireEditAccessAllowingArchived(cardId, userId);
         if (card.getColumn().isArchived()) {
-            throw ApiException.badRequest("Cannot unarchive a card in an archived column");
+            columnService.unarchiveColumn(card.getColumn().getId(), userId);
         }
 
         card.setArchived(false);
@@ -172,7 +175,6 @@ public class CardService {
     @Transactional
     public void addAssignee(UUID cardId, UUID userId, UUID assigneeUserId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
-        requireNotArchived(card);
         Board board = card.getColumn().getBoard();
 
         if (!boardAccessService.hasAccess(board, assigneeUserId)) {
@@ -186,14 +188,12 @@ public class CardService {
     @Transactional
     public void removeAssignee(UUID cardId, UUID userId, UUID assigneeUserId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
-        requireNotArchived(card);
         card.getAssignees().removeIf(user -> user.getId().equals(assigneeUserId));
     }
 
     @Transactional
     public void addLabel(UUID cardId, UUID userId, UUID labelId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
-        requireNotArchived(card);
         Label label = labelRepository.findById(labelId).orElseThrow(() -> ApiException.notFound("Label not found"));
 
         if (!label.getBoard().getId().equals(cardAccessService.boardIdOf(card))) {
@@ -205,7 +205,6 @@ public class CardService {
     @Transactional
     public void removeLabel(UUID cardId, UUID userId, UUID labelId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
-        requireNotArchived(card);
         card.getLabels().removeIf(label -> label.getId().equals(labelId));
     }
 
@@ -227,12 +226,6 @@ public class CardService {
 
     private List<UserResponse> assigneesOf(Card card) {
         return card.getAssignees().stream().map(UserResponse::from).toList();
-    }
-
-    private void requireNotArchived(Card card) {
-        if (card.isArchived()) {
-            throw ApiException.badRequest("Cannot modify an archived card");
-        }
     }
 
     private int clamp(int position, int size) {

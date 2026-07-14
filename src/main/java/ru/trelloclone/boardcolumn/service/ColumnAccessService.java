@@ -27,6 +27,15 @@ public class ColumnAccessService {
     }
 
     public BoardColumn requireColumnEditAccess(UUID columnId, UUID userId) {
+        BoardColumn column = requireEditAccessAllowingArchived(columnId, userId);
+        if (column.isArchived()) {
+            throw ApiException.badRequest("Cannot modify an archived column");
+        }
+
+        return column;
+    }
+
+    public BoardColumn requireEditAccessAllowingArchived(UUID columnId, UUID userId) {
         BoardColumn column = requireColumn(columnId);
         boardAccessService.requireEditAccess(column.getBoard().getId(), userId);
 

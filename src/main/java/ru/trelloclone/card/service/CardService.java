@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.trelloclone.attachment.service.AttachmentService;
@@ -32,6 +34,8 @@ import ru.trelloclone.user.repository.UserRepository;
 @RequiredArgsConstructor
 public class CardService {
 
+    private static final int MIN_SEARCH_QUERY_LENGTH = 2;
+
     private final CardRepository cardRepository;
     private final CardAccessService cardAccessService;
     private final ColumnAccessService columnAccessService;
@@ -58,6 +62,18 @@ public class CardService {
         columnAccessService.requireColumnViewAccess(columnId, userId);
 
         return cardRepository.findByColumn_IdAndArchivedFalseOrderByPosition(columnId).stream().map(this::toSummary).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CardSummaryResponse> searchCards(UUID boardId, UUID userId, String query, Pageable pageable) {
+        boardAccessService.requireViewAccess(boardId, userId);
+
+        String trimmedQuery = query == null ? "" : query.trim();
+        if (trimmedQuery.length() < MIN_SEARCH_QUERY_LENGTH) {
+            throw ApiException.badRequest("Search query must be at least " + MIN_SEARCH_QUERY_LENGTH + " characters long");
+        }
+
+        return cardRepository.search(boardId, trimmedQuery, pageable).map(this::toSummary);
     }
 
     @Transactional(readOnly = true)

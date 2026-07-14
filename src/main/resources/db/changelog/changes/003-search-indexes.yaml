@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-search-indexes
+      author: trello-clone
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: postgresql
+      changes:
+        - sql:
+            sql: CREATE EXTENSION IF NOT EXISTS pg_trgm;
+        - sql:
+            sql: CREATE INDEX idx_users_email_trgm ON users USING gin (lower(email) gin_trgm_ops);
+        - sql:
+            sql: CREATE INDEX idx_users_display_name_trgm ON users USING gin (lower(display_name) gin_trgm_ops);
+        - sql:
+            sql: CREATE INDEX idx_cards_title_trgm ON cards USING gin (lower(title) gin_trgm_ops);
+        - sql:
+            sql: CREATE INDEX idx_cards_description_trgm ON cards USING gin (lower(description) gin_trgm_ops);
+      rollback:
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_cards_description_trgm;
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_cards_title_trgm;
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_users_display_name_trgm;
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_users_email_trgm;

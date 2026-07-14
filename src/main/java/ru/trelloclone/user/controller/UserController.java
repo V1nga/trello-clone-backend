@@ -4,11 +4,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.trelloclone.user.dto.UpdateProfileRequest;
 import ru.trelloclone.user.dto.UserResponse;
@@ -30,5 +34,10 @@ public class UserController {
     @PatchMapping("/me")
     public UserResponse updateCurrentUser(@AuthenticationPrincipal UUID userId, @Valid @RequestBody UpdateProfileRequest request) {
         return UserResponse.from(userService.updateDisplayName(userId, request.displayName()));
+    }
+
+    @GetMapping("/search")
+    public Page<UserResponse> searchUsers(@AuthenticationPrincipal UUID userId, @RequestParam String query, @PageableDefault(size = 20) Pageable pageable) {
+        return userService.searchUsers(userId, query, pageable);
     }
 }

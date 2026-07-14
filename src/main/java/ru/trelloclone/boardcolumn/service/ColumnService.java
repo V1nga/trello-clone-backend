@@ -44,6 +44,12 @@ public class ColumnService {
         return columnRepository.findByBoard_IdAndArchivedFalseOrderByPosition(boardId);
     }
 
+    public List<BoardColumn> listArchivedColumns(UUID boardId, UUID userId) {
+        boardAccessService.requireViewAccess(boardId, userId);
+
+        return columnRepository.findByBoard_IdAndArchivedTrueOrderByArchivedAtDesc(boardId);
+    }
+
     @Transactional
     public BoardColumn renameColumn(UUID columnId, UUID userId, RenameColumnRequest request) {
         BoardColumn column = columnAccessService.requireColumnEditAccess(columnId, userId);
@@ -80,5 +86,15 @@ public class ColumnService {
             card.setArchived(true);
             card.setUpdatedAt(now);
         }
+    }
+
+    @Transactional
+    public BoardColumn unarchiveColumn(UUID columnId, UUID userId) {
+        BoardColumn column = columnAccessService.requireColumnEditAccess(columnId, userId);
+        column.setArchived(false);
+        column.setArchivedAt(null);
+        column.setPosition((int) columnRepository.countByBoard_IdAndArchivedFalse(column.getBoard().getId()));
+
+        return column;
     }
 }

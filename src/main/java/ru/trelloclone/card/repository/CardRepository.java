@@ -19,6 +19,8 @@ public interface CardRepository extends JpaRepository<Card, UUID> {
 
     List<Card> findByColumn_Board_IdAndAssignees_IdAndArchivedFalse(UUID boardId, UUID userId);
 
+    List<Card> findByColumn_Board_IdAndArchivedTrueOrderByUpdatedAtDesc(UUID boardId);
+
     @Query("""
         select c from Card c
         where c.column.board.id = :boardId

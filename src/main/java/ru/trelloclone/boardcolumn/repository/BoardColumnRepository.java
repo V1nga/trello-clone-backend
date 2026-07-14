@@ -10,4 +10,6 @@ public interface BoardColumnRepository extends JpaRepository<BoardColumn, UUID> 
     List<BoardColumn> findByBoard_IdAndArchivedFalseOrderByPosition(UUID boardId);
 
     long countByBoard_IdAndArchivedFalse(UUID boardId);
+
+    List<BoardColumn> findByBoard_IdAndArchivedTrueOrderByArchivedAtDesc(UUID boardId);
 }

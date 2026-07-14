@@ -41,6 +41,11 @@ public class ColumnController {
         return columnService.listColumns(boardId, userId).stream().map(ColumnResponse::from).toList();
     }
 
+    @GetMapping("/api/boards/{boardId}/columns/archived")
+    public List<ColumnResponse> listArchivedColumns(@AuthenticationPrincipal UUID userId, @PathVariable UUID boardId) {
+        return columnService.listArchivedColumns(boardId, userId).stream().map(ColumnResponse::from).toList();
+    }
+
     @PatchMapping("/api/columns/{columnId}")
     public ColumnResponse renameColumn(@AuthenticationPrincipal UUID userId, @PathVariable UUID columnId, @Valid @RequestBody RenameColumnRequest request) {
         return ColumnResponse.from(columnService.renameColumn(columnId, userId, request));
@@ -56,5 +61,10 @@ public class ColumnController {
         columnService.archiveColumn(columnId, userId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/api/columns/{columnId}/unarchive")
+    public ColumnResponse unarchiveColumn(@AuthenticationPrincipal UUID userId, @PathVariable UUID columnId) {
+        return ColumnResponse.from(columnService.unarchiveColumn(columnId, userId));
     }
 }

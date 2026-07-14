@@ -77,6 +77,13 @@ public class CardService {
     }
 
     @Transactional(readOnly = true)
+    public List<CardSummaryResponse> listArchivedCards(UUID boardId, UUID userId) {
+        boardAccessService.requireViewAccess(boardId, userId);
+
+        return cardRepository.findByColumn_Board_IdAndArchivedTrueOrderByUpdatedAtDesc(boardId).stream().map(this::toSummary).toList();
+    }
+
+    @Transactional(readOnly = true)
     public CardDetailResponse getCardDetail(UUID cardId, UUID userId) {
         Card card = cardAccessService.requireCardViewAccess(cardId, userId);
         UUID boardId = cardAccessService.boardIdOf(card);
@@ -102,6 +109,7 @@ public class CardService {
     @Transactional
     public void updateCard(UUID cardId, UUID userId, UpdateCardRequest request) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        requireNotArchived(card);
         card.setTitle(request.title());
         card.setDescription(request.description());
         card.setDueDate(request.dueDate());
@@ -111,6 +119,7 @@ public class CardService {
     @Transactional
     public void moveCard(UUID cardId, UUID userId, MoveCardRequest request) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        requireNotArchived(card);
         UUID sourceColumnId = card.getColumn().getId();
         UUID targetColumnId = request.columnId();
 
@@ -149,8 +158,21 @@ public class CardService {
     }
 
     @Transactional
+    public void unarchiveCard(UUID cardId, UUID userId) {
+        Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        if (card.getColumn().isArchived()) {
+            throw ApiException.badRequest("Cannot unarchive a card in an archived column");
+        }
+
+        card.setArchived(false);
+        card.setPosition((int) cardRepository.countByColumn_IdAndArchivedFalse(card.getColumn().getId()));
+        card.setUpdatedAt(Instant.now());
+    }
+
+    @Transactional
     public void addAssignee(UUID cardId, UUID userId, UUID assigneeUserId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        requireNotArchived(card);
         Board board = card.getColumn().getBoard();
 
         if (!boardAccessService.hasAccess(board, assigneeUserId)) {
@@ -164,12 +186,14 @@ public class CardService {
     @Transactional
     public void removeAssignee(UUID cardId, UUID userId, UUID assigneeUserId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        requireNotArchived(card);
         card.getAssignees().removeIf(user -> user.getId().equals(assigneeUserId));
     }
 
     @Transactional
     public void addLabel(UUID cardId, UUID userId, UUID labelId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        requireNotArchived(card);
         Label label = labelRepository.findById(labelId).orElseThrow(() -> ApiException.notFound("Label not found"));
 
         if (!label.getBoard().getId().equals(cardAccessService.boardIdOf(card))) {
@@ -181,6 +205,7 @@ public class CardService {
     @Transactional
     public void removeLabel(UUID cardId, UUID userId, UUID labelId) {
         Card card = cardAccessService.requireCardEditAccess(cardId, userId);
+        requireNotArchived(card);
         card.getLabels().removeIf(label -> label.getId().equals(labelId));
     }
 
@@ -202,6 +227,12 @@ public class CardService {
 
     private List<UserResponse> assigneesOf(Card card) {
         return card.getAssignees().stream().map(UserResponse::from).toList();
+    }
+
+    private void requireNotArchived(Card card) {
+        if (card.isArchived()) {
+            throw ApiException.badRequest("Cannot modify an archived card");
+        }
     }
 
     private int clamp(int position, int size) {

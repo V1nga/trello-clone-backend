@@ -63,6 +63,11 @@ public class CardController {
         return cardService.searchCards(boardId, userId, query, pageable);
     }
 
+    @GetMapping("/api/boards/{boardId}/cards/archived")
+    public List<CardSummaryResponse> listArchivedCards(@AuthenticationPrincipal UUID userId, @PathVariable UUID boardId) {
+        return cardService.listArchivedCards(boardId, userId);
+    }
+
     @GetMapping("/api/cards/{cardId}")
     public CardDetailResponse getCard(@AuthenticationPrincipal UUID userId, @PathVariable UUID cardId) {
         return cardService.getCardDetail(cardId, userId);
@@ -85,6 +90,13 @@ public class CardController {
     @PostMapping("/api/cards/{cardId}/archive")
     public ResponseEntity<Void> archiveCard(@AuthenticationPrincipal UUID userId, @PathVariable UUID cardId) {
         cardService.archiveCard(cardId, userId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/api/cards/{cardId}/unarchive")
+    public ResponseEntity<Void> unarchiveCard(@AuthenticationPrincipal UUID userId, @PathVariable UUID cardId) {
+        cardService.unarchiveCard(cardId, userId);
 
         return ResponseEntity.noContent().build();
     }

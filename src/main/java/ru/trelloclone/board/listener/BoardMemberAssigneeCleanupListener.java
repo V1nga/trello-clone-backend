@@ -2,17 +2,20 @@ package ru.trelloclone.board.listener;
 
 import jakarta.persistence.PreRemove;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import ru.trelloclone.board.entity.BoardMember;
 import ru.trelloclone.card.entity.Card;
 import ru.trelloclone.card.repository.CardRepository;
 
 @Component
-@RequiredArgsConstructor
 public class BoardMemberAssigneeCleanupListener {
 
     private final CardRepository cardRepository;
+
+    public BoardMemberAssigneeCleanupListener(@Lazy CardRepository cardRepository) {
+        this.cardRepository = cardRepository;
+    }
 
     @PreRemove
     public void onRemove(BoardMember member) {
